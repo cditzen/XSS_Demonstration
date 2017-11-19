@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XSS Test</title>
+    <script src="server_comm.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body onload="loadPosts(); document.cookie = 'batman=BruceWayne'; ">
+
+    <div class="jumbotron">
+        <h1>XSS Test</h1>
+        <p>There's no XSS going on. We promise</p>
+    </div>
+
+    <div class="well" id="content_anchor" style="background-color:lavender;">
+        This is the anchor where we will make an http request to the database
+    </div>
+
+    <div class="well">
+        <textarea id="compose_post_area" rows="6" cols="60"></textarea>
+        <br>
+        <button id="RequestButton" onclick="submitPost()">Submit Post</button>
+
+
+    </div>
+
+
+
+    <br>
+
+    <div class="well">
+        <h2>Admin Controls</h2>
+        <div style="padding-top: 30px;">Sanitize Input:
+            <input id="SanitizeInput" type="checkbox" data-toggle="toggle">
+        </div>
+        <button id="clearDatabase" onclick="clearDatabase()">Clear Database</button>
+    </div>
+
+    <img src="logo.gif">
+</body>
+</html>
