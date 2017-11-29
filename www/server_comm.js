@@ -52,5 +52,7 @@ function htmlEscape(str) {
     return str.replace(/&/g, '&amp;')
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;')
+              .replace(/'/g, '&#39;')
+              .replace(/"/g, '&quot;')
               .replace(/\x00/g, '&#0;');
 }
