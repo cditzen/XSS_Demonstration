@@ -6,7 +6,7 @@ function submitPost() {
     var textArea = document.getElementById("compose_post_area");
     var postText = textArea.value;
     if (document.getElementById("SanitizeInput").checked) {
-        postText = removeTags(postText);
+        postText = htmlEscape(postText);
     }
     textArea.value = "";
 
@@ -45,26 +45,12 @@ function httpPost(theUrl, post) {
     }
 }
 
-var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*';
-
-var tagOrComment = new RegExp(
-    '<(?:'
-    // Comment body.
-    + '!--(?:(?:-*[^->])*--+|-?)'
-    // Special "raw text" elements whose content should be elided.
-    + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
-    + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
-    // Regular name
-    + '|/?[a-z]'
-    + tagBody
-    + ')>',
-    'gi');
-
-function removeTags(html) {
-  var oldHtml;
-  do {
-    oldHtml = html;
-    html = html.replace(tagOrComment, '');
-  } while (html !== oldHtml);
-  return html.replace(/</g, '&lt;');
+// Source: https://github.com/google/closure-library/blob/master/closure/goog/string/string.js#L541
+// Very simplified version of Google's HtmlEscape function found
+// in their Javascript closure library
+function htmlEscape(str) {
+    return str.replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;')
+              .replace(/\x00/g, '&#0;');
 }
